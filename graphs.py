@@ -45,6 +45,154 @@ def household_dwelling_bar_decade(household_type):
     return fig
 
 
+def household_proportion(household_type, year):
+    str_year = str(year)
+    labels = household_type['Data Series']
+    sizes = household_type[str_year]
 
+    fig = Figure(dpi=60)
+    ax = fig.subplots()
+    ax.pie(sizes,labels=labels,autopct='%1.1f%%')
+    ax.set_title("Proportion of household properties in "+str_year)
+    return fig
 
+def household_demographics(household_occupier_type):
+    household_occupier_type_collapsed = household_occupier_type.melt(id_vars=["Data Series","Type"],
+            value_vars=["1990","1995","2000","2001","2002","2003","2004","2005","2006",
+                        "2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019",
+                        "2020","2021","2022"])
+    household_occupier_type_collapsed = household_occupier_type_collapsed.rename(columns={"variable":"year","value":"noHouseholds"})
+    household_occupier_type_selected = household_occupier_type_collapsed[household_occupier_type_collapsed["Type"]=="Resident Households"]
+    household_occupier_type_selected
+
+    fig = Figure(dpi=60)
+    ax = fig.subplots()
+    colors=['b','orange','green','r','gold']
+    types = household_occupier_type_selected["Data Series"]
+    bottom = None
+    for i in range(5):
+        data = household_occupier_type_selected[household_occupier_type_selected["Data Series"]==types[i]]
+        if (i==0):
+            ax.bar(data["year"],data["noHouseholds"],color=colors[i])
+            bottom = data["noHouseholds"].to_numpy()
+        else:
+            ax.bar(data["year"],data["noHouseholds"],bottom=bottom,color=colors[i])
+            bottom += data["noHouseholds"].to_numpy()
+    ax.set_title("Bar Graph of no. of households based on household demographics from 1990 to 2022")
+    ax.set_ylabel("No. of Households")
+    ax.legend(types)        
+
+    return fig
+
+def household_reference(household_occupier_type):
+    household_occupier_type_collapsed = household_occupier_type.melt(id_vars=["Data Series","Type"],
+            value_vars=["1990","1995","2000","2001","2002","2003","2004","2005","2006",
+                        "2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019",
+                        "2020","2021","2022"])
+    household_occupier_type_collapsed = household_occupier_type_collapsed.rename(columns={"variable":"year","value":"noHouseholds"})
+    household_occupier_type_grouped = household_occupier_type_collapsed.groupby(by=["Type","year"]).sum()
+    household_occupier_type_grouped = household_occupier_type_grouped.reset_index()
+    household_occupier_type_grouped = household_occupier_type_grouped[household_occupier_type_grouped["Type"]!="Resident Households"]
+    fig = Figure(dpi=60)
+    ax = fig.subplots()
+    sns.pointplot(y="noHouseholds",x="year",data=household_occupier_type_grouped,hue="Type")
+    ax.set_title("Number of residential households from 1990 to 2022 based on household reference")
+    ax.legend(bbox_to_anchor=(1,1))
+
+    return fig
+
+def household_demographics_pie(household_occupier_type,year):
+    household_occupier_type_demographics = household_occupier_type[household_occupier_type["Type"]!="Resident Households"]
+    household_occupier_type_demographics = household_occupier_type_demographics.groupby(by="Data Series").sum()
+    household_occupier_type_demographics = household_occupier_type_demographics.reset_index()
+    labels = household_occupier_type_demographics['Data Series']
+    str_year = str(year)
+    fig = Figure(dpi=60)
+    ax = fig.subplots()
+    sizes = household_occupier_type_demographics[str_year]
+    ax.pie(sizes,labels=labels,autopct='%1.1f%%')
+    ax.set_title(str_year)
+
+    return fig
+
+def household_age_pie(household_occupier_type,year):
+    household_occupier_age = household_occupier_type.groupby(by="Type").sum()
+    household_occupier_age = household_occupier_age.rename(index=
+        {"Household Reference Persons Aged 35-49 Years":"35 - 45 years","Household Reference Persons Aged 50-64 Years": "50 - 64 years",
+        "Household Reference Persons Aged 65 Years & Over":">=65 years","Household Reference Persons Aged Below 35 Years":"<35 years"})
+    household_occupier_age = household_occupier_age.reset_index()
+    household_occupier_age = household_occupier_age[household_occupier_age["Type"]!="Resident Households"]
+    labels = household_occupier_age['Type']
+
+    fig = Figure(dpi=60)
+    ax = fig.subplots()
+    str_year = str(year)
+    sizes = household_occupier_age[str_year]
+    ax.pie(sizes,labels=labels,autopct='%1.1f%%')
+    ax.set_title("Households based on household reference person's age"+str_year)
+    
+    return fig
+
+def household_persons(household_size):
+    household_size_selected = household_size.drop(columns=["1980"])
+    household_size_selected = household_size_selected.melt(id_vars=["Data Series"],
+                value_vars=[str(i) for i in range(1983,2023)])
+    household_size_selected = household_size_selected[household_size_selected["Data Series"].str.endswith("(Persons)")]
+    household_size_selected = household_size_selected.rename(columns={"variable":"year"})
+
+    fig = Figure(dpi=60)
+    ax = fig.subplots()
+    ax.set_title("Number of people staying based on type of households from 1983 to 2022")
+    sns.pointplot(y="value",x="year",data=household_size_selected,hue="Data Series")
+    ax.legend(bbox_to_anchor=(1,1))
+    
+    return fig
+
+def household_tenancy_demographics(household_type_tenancy,year):
+    household_type_tenancy_selected = household_type_tenancy.drop(index=[0,1,2])
+    labels = household_type_tenancy_selected['Data Series']
+    fig = Figure(dpi=60)
+    ax = fig.subplots()
+    
+    str_year = str(year)
+    sizes = household_type_tenancy_selected[str_year]
+    ax.pie(sizes,labels=labels,autopct='%1.1f%%')
+    ax.set_title("Resident Households by Tenancy"+str_year)
+
+    return fig
+
+def household_living_arrangement(household_child):
+    years = ["1990","1995","2000","2001","2002","2003","2004","2005","2006",
+                            "2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019",
+                            "2020","2021","2022"]
+    household_child_selected = household_child.groupby(by="Type").sum()
+    household_child_selected = household_child_selected.reset_index()
+    household_child_selected = household_child_selected.melt(id_vars=["Type"],
+                value_vars=years)
+    household_child_selected = household_child_selected.rename(columns={"variable":"year"})
+    fig = Figure(dpi=60)
+    ax = fig.subplots()
+    ax.set_title("Number of people in resident households by living arrangement 1990 to 2022")
+    sns.pointplot(y="value",x="year",data=household_child_selected,hue="Type")
+    ax.legend(bbox_to_anchor=(1,1))
+    
+    return fig 
+
+def household_married_children(household_child, year):
+    household_child_with_child_married = household_child[household_child["Type"]=="  Married Couple-Based With Children"]
+    household_child_with_child_married = household_child_with_child_married.set_index("Data Series")
+    household_child_with_child_married = household_child_with_child_married.rename(
+        index={"    With Youngest Child Aged Below 6 Years":"<6 years","    With Youngest Child Aged 6 - 11 Years":"6 - 11 years",
+            "    With Youngest Child Aged 12 - 15 Years":"12 - 15 years","    With Youngest Child Aged 16 Years And Over":">=16 years"})
+    household_child_with_child_married = household_child_with_child_married.reset_index()
+    labels = household_child_with_child_married['Data Series']
+
+    fig = Figure(dpi=60)
+    ax = fig.subplots()
+    str_year = str(year)
+    sizes = household_child_with_child_married[str_year]
+    ax.pie(sizes,labels=labels,autopct='%1.1f%%')
+    ax.set_title("Resident Households by Age of Youngest Child for Married Households with Children "+str_year)
+    
+    return fig 
 
