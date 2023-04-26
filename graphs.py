@@ -18,15 +18,30 @@ def initialize():
     return household_type, household_occupier_type, household_size, household_type_tenancy, household_child
 
 
-def household_dwelling(household_type):
+def household_dwelling_line(household_type):
     selected_household_type = household_type.melt(id_vars=["Data Series"],
             value_vars=[str(i) for i in range(1983,2023)])
     selected_household_type = selected_household_type.rename(columns={"Data Series":"Type of Household",
                                                                   "variable":"year", "value":"noHouseholds"})
-    fig = Figure(dpi=100)
-    ax = sns.pointplot(y=selected_household_type["noHouseholds"],x=selected_household_type["year"],data=selected_household_type,hue="Type of Household")
+    fig = Figure(dpi=60)
+    ax = fig.subplots()
+    sns.pointplot(y=selected_household_type["noHouseholds"],x=selected_household_type["year"],data=selected_household_type,hue="Type of Household",ax=ax)
     ax.set_title("Number of residential households from 1983 to 2022 based on type of dwelling")
-    fig = ax.get_figure()
+    return fig
+
+def household_dwelling_bar_decade(household_type):
+    selected_household_type = household_type.melt(id_vars=["Data Series"],
+            value_vars=[str(i) for i in range(1983,2023)])
+    selected_household_type = selected_household_type.rename(columns={"Data Series":"Type of Household",
+                                                                  "variable":"year", "value":"noHouseholds"})
+    selected_household_type_decade = selected_household_type[selected_household_type["year"].astype(int)%10==0]
+    
+    fig = Figure(dpi=60)
+    ax = fig.subplots()
+    pd.pivot_table(selected_household_type_decade,values="noHouseholds",index="Type of Household",columns="year").plot(kind="bar",figsize=(18,8),ax=ax)
+    ax.set_title("Change of number of households across decades")
+    ax.set_xticklabels(ax.get_xticklabels(),rotation=5)
+    ax.set_ylabel("Number of household units")
     return fig
 
 
