@@ -13,6 +13,7 @@ import graphs
 household_type, household_occupier_type, household_size, household_type_tenancy, household_child = None, None, None, None, None
 
 LARGEFONT =("Verdana", 24)
+CONTENTFONT = ("Verdana",16)
 
 class tkinterApp(tkinter.Tk):
 	
@@ -49,12 +50,21 @@ class HomePage(tkinter.Frame):
 
 		label = ttk.Label(self, text ="Home Page", font = LARGEFONT)
 		
-		label.grid(row = 0, column = 1, padx = 10, pady = 10)
+		label.grid(row = 0, column = 1, padx = 10, pady = 10, sticky=tkinter.W)
+
+		label = ttk.Label(self, text ="Click start browsing to view visualisations of Singapore household demographics!", font = CONTENTFONT)
+		
+		label.grid(row = 1, column = 1, columnspan=4, padx = 10, pady = 10, sticky=tkinter.W)
+
+		label = ttk.Label(self, text ="Enter full screen for the best experience!", font = CONTENTFONT)
+		
+		label.grid(row = 2, column = 1, columnspan=4, padx = 10, pady = 10, sticky=tkinter.W)
+
 
 		startButton = ttk.Button(self, text="Start Browsing!",
 		command = lambda : controller.show_frame(Page1))
 	
-		startButton.grid(row = 4, column = 4, padx = 10, pady = 10)
+		startButton.grid(row = 4, column = 1, padx = 10, pady = 10, sticky=tkinter.W)
 
 class Page1(tkinter.Frame):
 	
