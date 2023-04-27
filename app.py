@@ -371,13 +371,13 @@ class Page8(tkinter.Frame):
 	
 	def __init__(self, parent, controller):
 		tkinter.Frame.__init__(self, parent)
-		label = ttk.Label(self, text ="Household Dwelling Distribution over Decades", font = LARGEFONT)
+		label = ttk.Label(self, text ="Household Size over the years", font = LARGEFONT)
 		label.pack(side=tkinter.TOP, padx=10,pady=10)
 
 		bottom_bar = tkinter.Frame(master=self)
 		bottom_bar.pack(side=tkinter.BOTTOM)
 
-		prevButton = ttk.Button(bottom_bar, text ="Next",
+		prevButton = ttk.Button(bottom_bar, text ="Previous",
 							command = lambda : controller.show_frame(Page7))
 
 		prevButton.grid(row = 0, column = 2, padx = 10, pady = 10)
