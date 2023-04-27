@@ -6,6 +6,7 @@ Note: May need to install the packages required to run properly. If prompted upo
 - pandas
 - matplotlib
 - seaborn
+- customtkinter
 
 Note: Min Max was only annotated for first plot as it was most relevant in the context, and pie charts all had percentages indicated.
 

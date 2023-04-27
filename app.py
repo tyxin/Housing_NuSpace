@@ -1,6 +1,8 @@
 from tkinter import ttk
 
 import tkinter
+from tkinter import *
+import customtkinter
 
 from matplotlib.backends.backend_tkagg import (
     FigureCanvasTkAgg, NavigationToolbar2Tk)
@@ -15,14 +17,14 @@ household_type, household_occupier_type, household_size, household_type_tenancy,
 LARGEFONT =("Verdana", 24)
 CONTENTFONT = ("Verdana",16)
 
-class tkinterApp(tkinter.Tk):
+class tkinterApp(customtkinter.CTk):
 	
 	# __init__ function for class tkinterApp
 	def __init__(self, *args, **kwargs):
 		
-		tkinter.Tk.__init__(self, *args, **kwargs)
+		customtkinter.CTk.__init__(self, *args, **kwargs)
 		
-		container = tkinter.Frame(self)
+		container = customtkinter.CTkFrame(self)
 		container.pack(side = "top", fill = "both", expand = True)
 
 		container.grid_rowconfigure(0, weight = 1)
@@ -44,44 +46,44 @@ class tkinterApp(tkinter.Tk):
 		frame = self.frames[cont]
 		frame.tkraise()
 
-class HomePage(tkinter.Frame):
+class HomePage(customtkinter.CTkFrame):
 	def __init__(self, parent, controller):
-		tkinter.Frame.__init__(self, parent)
+		customtkinter.CTkFrame.__init__(self, parent)
 
-		label = ttk.Label(self, text ="Home Page", font = LARGEFONT)
+		label = customtkinter.CTkLabel(self, text ="Home Page", font = LARGEFONT)
 		
 		label.grid(row = 0, column = 1, padx = 10, pady = 10, sticky=tkinter.W)
 
-		label = ttk.Label(self, text ="Click start browsing to view visualisations of Singapore household demographics!", font = CONTENTFONT)
+		label = customtkinter.CTkLabel(self, text ="Click start browsing to view visualisations of Singapore household demographics!", font = CONTENTFONT)
 		
 		label.grid(row = 1, column = 1, columnspan=4, padx = 10, pady = 10, sticky=tkinter.W)
 
-		label = ttk.Label(self, text ="Enter full screen for the best experience!", font = CONTENTFONT)
+		label = customtkinter.CTkLabel(self, text ="Enter full screen for the best experience!", font = CONTENTFONT)
 		
 		label.grid(row = 2, column = 1, columnspan=4, padx = 10, pady = 10, sticky=tkinter.W)
+		
 
-
-		startButton = ttk.Button(self, text="Start Browsing!",
+		startButton = customtkinter.CTkButton(self, text="Start Browsing!",
 		command = lambda : controller.show_frame(Page1))
 	
 		startButton.grid(row = 4, column = 1, padx = 10, pady = 10, sticky=tkinter.W)
 
-class Page1(tkinter.Frame):
+class Page1(customtkinter.CTkFrame):
 	
 	def __init__(self, parent, controller):
-		tkinter.Frame.__init__(self, parent)
-		label = ttk.Label(self, text ="Household Dwelling Distribution over Decades", font = LARGEFONT)
+		customtkinter.CTkFrame.__init__(self, parent)
+		label = customtkinter.CTkLabel(self, text ="Household Dwelling Distribution over Decades", font = LARGEFONT)
 		label.pack(side=tkinter.TOP, padx=10,pady=10)
 
-		bottom_bar = tkinter.Frame(master=self)
+		bottom_bar = customtkinter.CTkFrame(master=self)
 		bottom_bar.pack(side=tkinter.BOTTOM)
 
-		nextButton = ttk.Button(bottom_bar, text ="Next",
+		nextButton = customtkinter.CTkButton(bottom_bar, text ="Next",
 							command = lambda : controller.show_frame(Page2))
 
 		nextButton.grid(row = 0, column = 2, padx = 10, pady = 10)
 
-		homeButton = ttk.Button(bottom_bar, text ="Back to Home",
+		homeButton = customtkinter.CTkButton(bottom_bar, text ="Back to Home",
 							command = lambda : controller.show_frame(HomePage))
 	
 		homeButton.grid(row = 0, column = 3, padx = 10, pady = 10)
@@ -98,24 +100,24 @@ class Page1(tkinter.Frame):
 		toolbar.pack(side=tkinter.BOTTOM, fill=tkinter.X, padx=10,pady=10)
 		canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=True, padx=10,pady=10)
 
-class Page2(tkinter.Frame):
+class Page2(customtkinter.CTkFrame):
 	def __init__(self, parent, controller):
-		tkinter.Frame.__init__(self, parent)
-		label = ttk.Label(self, text ="Residential Households by Dwellings over the years", font = LARGEFONT)
+		customtkinter.CTkFrame.__init__(self, parent)
+		label = customtkinter.CTkLabel(self, text ="Residential Households by Dwellings over the years", font = LARGEFONT)
 		label.pack(side=tkinter.TOP, padx=10,pady=10)
 
-		bottom_bar = tkinter.Frame(self)
+		bottom_bar = customtkinter.CTkFrame(self)
 		bottom_bar.pack(side=tkinter.BOTTOM)
 
-		prevButton = ttk.Button(bottom_bar, text ="Previous",
+		prevButton = customtkinter.CTkButton(bottom_bar, text ="Previous",
 							command = lambda : controller.show_frame(Page1))
 		prevButton.grid(row = 0, column = 2, padx = 10, pady = 10)
 
-		nextButton = ttk.Button(bottom_bar, text ="Next",
+		nextButton = customtkinter.CTkButton(bottom_bar, text ="Next",
 							command = lambda : controller.show_frame(Page3))
 		nextButton.grid(row = 0, column = 3, padx = 10, pady = 10)
 		
-		homeButton = ttk.Button(bottom_bar, text ="Back to Home",
+		homeButton = customtkinter.CTkButton(bottom_bar, text ="Back to Home",
 					command = lambda : controller.show_frame(HomePage))
 	
 		homeButton.grid(row = 0, column = 4, padx = 10, pady = 10)
@@ -133,24 +135,24 @@ class Page2(tkinter.Frame):
 		toolbar.pack(side=tkinter.BOTTOM, fill=tkinter.X, padx=10,pady=10)
 		canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=True, padx=10,pady=10)
 
-class Page3(tkinter.Frame):
+class Page3(customtkinter.CTkFrame):
 	def __init__(self, parent, controller):
-		tkinter.Frame.__init__(self, parent)
-		label = ttk.Label(self, text ="Household Properties by Dwelling", font = LARGEFONT)
+		customtkinter.CTkFrame.__init__(self, parent)
+		label = customtkinter.CTkLabel(self, text ="Household Properties by Dwelling", font = LARGEFONT)
 		label.pack(side=tkinter.TOP, padx=10,pady=10)
 
-		bottom_bar = tkinter.Frame(self)
+		bottom_bar = customtkinter.CTkFrame(self)
 		bottom_bar.pack(side=tkinter.BOTTOM)
 
-		prevButton = ttk.Button(bottom_bar, text ="Previous",
+		prevButton = customtkinter.CTkButton(bottom_bar, text ="Previous",
 							command = lambda : controller.show_frame(Page2))
 		prevButton.grid(row = 0, column = 3, padx = 10, pady = 10)
 
-		nextButton = ttk.Button(bottom_bar, text ="Next",
+		nextButton = customtkinter.CTkButton(bottom_bar, text ="Next",
 							command = lambda : controller.show_frame(Page4))
 		nextButton.grid(row = 0, column = 4, padx = 10, pady = 10)
 		
-		homeButton = ttk.Button(bottom_bar, text ="Back to Home",
+		homeButton = customtkinter.CTkButton(bottom_bar, text ="Back to Home",
 					command = lambda : controller.show_frame(HomePage))
 	
 		homeButton.grid(row = 0, column = 5, padx = 10, pady = 10)
@@ -201,24 +203,24 @@ class Page3(tkinter.Frame):
 		toolbar.pack(side=tkinter.BOTTOM, fill=tkinter.X, padx=10,pady=10)
 		canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=True, padx=10,pady=10)
 
-class Page4(tkinter.Frame):
+class Page4(customtkinter.CTkFrame):
 	def __init__(self, parent, controller):
-		tkinter.Frame.__init__(self, parent)
-		label = ttk.Label(self, text ="Household Demographics over the years", font = LARGEFONT)
+		customtkinter.CTkFrame.__init__(self, parent)
+		label = customtkinter.CTkLabel(self, text ="Household Demographics over the years", font = LARGEFONT)
 		label.pack(side=tkinter.TOP, padx=10,pady=10)
 
-		bottom_bar = tkinter.Frame(self)
+		bottom_bar = customtkinter.CTkFrame(self)
 		bottom_bar.pack(side=tkinter.BOTTOM)
 
-		prevButton = ttk.Button(bottom_bar, text ="Previous",
+		prevButton = customtkinter.CTkButton(bottom_bar, text ="Previous",
 							command = lambda : controller.show_frame(Page3))
 		prevButton.grid(row = 0, column = 2, padx = 10, pady = 10)
 
-		nextButton = ttk.Button(bottom_bar, text ="Next",
+		nextButton = customtkinter.CTkButton(bottom_bar, text ="Next",
 							command = lambda : controller.show_frame(Page5))
 		nextButton.grid(row = 0, column = 3, padx = 10, pady = 10)
 		
-		homeButton = ttk.Button(bottom_bar, text ="Back to Home",
+		homeButton = customtkinter.CTkButton(bottom_bar, text ="Back to Home",
 					command = lambda : controller.show_frame(HomePage))
 	
 		homeButton.grid(row = 0, column = 4, padx = 10, pady = 10)
@@ -236,24 +238,24 @@ class Page4(tkinter.Frame):
 		toolbar.pack(side=tkinter.BOTTOM, fill=tkinter.X, padx=10,pady=10)
 		canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=True, padx=10,pady=10)
 
-class Page5(tkinter.Frame):
+class Page5(customtkinter.CTkFrame):
 	def __init__(self, parent, controller):
-		tkinter.Frame.__init__(self, parent)
-		label = ttk.Label(self, text ="Household Properties by Reference Person's Age", font = LARGEFONT)
+		customtkinter.CTkFrame.__init__(self, parent)
+		label = customtkinter.CTkLabel(self, text ="Household Properties by Reference Person's Age", font = LARGEFONT)
 		label.pack(side=tkinter.TOP, padx=10,pady=10)
 
-		bottom_bar = tkinter.Frame(self)
+		bottom_bar = customtkinter.CTkFrame(self)
 		bottom_bar.pack(side=tkinter.BOTTOM)
 
-		prevButton = ttk.Button(bottom_bar, text ="Previous",
+		prevButton = customtkinter.CTkButton(bottom_bar, text ="Previous",
 							command = lambda : controller.show_frame(Page4))
 		prevButton.grid(row = 0, column = 2, padx = 10, pady = 10)
 
-		nextButton = ttk.Button(bottom_bar, text ="Next",
+		nextButton = customtkinter.CTkButton(bottom_bar, text ="Next",
 							command = lambda : controller.show_frame(Page6))
 		nextButton.grid(row = 0, column = 3, padx = 10, pady = 10)
 		
-		homeButton = ttk.Button(bottom_bar, text ="Back to Home",
+		homeButton = customtkinter.CTkButton(bottom_bar, text ="Back to Home",
 					command = lambda : controller.show_frame(HomePage))
 	
 		homeButton.grid(row = 0, column = 4, padx = 10, pady = 10)
@@ -270,24 +272,24 @@ class Page5(tkinter.Frame):
 		toolbar.pack(side=tkinter.BOTTOM, fill=tkinter.X, padx=10,pady=10)
 		canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=True, padx=10,pady=10)
 
-class Page6(tkinter.Frame):
+class Page6(customtkinter.CTkFrame):
 	def __init__(self, parent, controller):
-		tkinter.Frame.__init__(self, parent)
-		label = ttk.Label(self, text ="Household Properties by Demographics", font = LARGEFONT)
+		customtkinter.CTkFrame.__init__(self, parent)
+		label = customtkinter.CTkLabel(self, text ="Household Properties by Demographics", font = LARGEFONT)
 		label.pack(side=tkinter.TOP, padx=10,pady=10)
 
-		bottom_bar = tkinter.Frame(self)
+		bottom_bar = customtkinter.CTkFrame(self)
 		bottom_bar.pack(side=tkinter.BOTTOM)
 
-		prevButton = ttk.Button(bottom_bar, text ="Previous",
+		prevButton = customtkinter.CTkButton(bottom_bar, text ="Previous",
 							command = lambda : controller.show_frame(Page5))
 		prevButton.grid(row = 0, column = 3, padx = 10, pady = 10)
 
-		nextButton = ttk.Button(bottom_bar, text ="Next",
+		nextButton = customtkinter.CTkButton(bottom_bar, text ="Next",
 							command = lambda : controller.show_frame(Page7))
 		nextButton.grid(row = 0, column = 4, padx = 10, pady = 10)
 		
-		homeButton = ttk.Button(bottom_bar, text ="Back to Home",
+		homeButton = customtkinter.CTkButton(bottom_bar, text ="Back to Home",
 					command = lambda : controller.show_frame(HomePage))
 	
 		homeButton.grid(row = 0, column = 5, padx = 10, pady = 10)
@@ -340,24 +342,24 @@ class Page6(tkinter.Frame):
 		toolbar.pack(side=tkinter.BOTTOM, fill=tkinter.X, padx=10,pady=10)
 		canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=True, padx=10,pady=10)
 
-class Page7(tkinter.Frame):
+class Page7(customtkinter.CTkFrame):
 	def __init__(self, parent, controller):
-		tkinter.Frame.__init__(self, parent)
-		label = ttk.Label(self, text ="Household Properties by Reference Person's Age in Particular Year", font = LARGEFONT)
+		customtkinter.CTkFrame.__init__(self, parent)
+		label = customtkinter.CTkLabel(self, text ="Household Properties by Reference Person's Age in Particular Year", font = LARGEFONT)
 		label.pack(side=tkinter.TOP, padx=10,pady=10)
 
-		bottom_bar = tkinter.Frame(self)
+		bottom_bar = customtkinter.CTkFrame(self)
 		bottom_bar.pack(side=tkinter.BOTTOM)
 
-		prevButton = ttk.Button(bottom_bar, text ="Previous",
+		prevButton = customtkinter.CTkButton(bottom_bar, text ="Previous",
 							command = lambda : controller.show_frame(Page6))
 		prevButton.grid(row = 0, column = 3, padx = 10, pady = 10)
 
-		nextButton = ttk.Button(bottom_bar, text ="Next",
+		nextButton = customtkinter.CTkButton(bottom_bar, text ="Next",
 							command = lambda : controller.show_frame(Page8))
 		nextButton.grid(row = 0, column = 4, padx = 10, pady = 10)
 		
-		homeButton = ttk.Button(bottom_bar, text ="Back to Home",
+		homeButton = customtkinter.CTkButton(bottom_bar, text ="Back to Home",
 					command = lambda : controller.show_frame(HomePage))
 	
 		homeButton.grid(row = 0, column = 5, padx = 10, pady = 10)
@@ -414,27 +416,27 @@ class Page7(tkinter.Frame):
 		toolbar.pack(side=tkinter.BOTTOM, fill=tkinter.X, padx=10,pady=10)
 		canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=True, padx=10,pady=10)
 
-class Page8(tkinter.Frame):
+class Page8(customtkinter.CTkFrame):
 	
 	def __init__(self, parent, controller):
-		tkinter.Frame.__init__(self, parent)
-		label = ttk.Label(self, text ="Household Size over the years", font = LARGEFONT)
+		customtkinter.CTkFrame.__init__(self, parent)
+		label = customtkinter.CTkLabel(self, text ="Household Size over the years", font = LARGEFONT)
 		label.pack(side=tkinter.TOP, padx=10,pady=10)
 
-		bottom_bar = tkinter.Frame(master=self)
+		bottom_bar = customtkinter.CTkFrame(master=self)
 		bottom_bar.pack(side=tkinter.BOTTOM)
 
-		prevButton = ttk.Button(bottom_bar, text ="Previous",
+		prevButton = customtkinter.CTkButton(bottom_bar, text ="Previous",
 							command = lambda : controller.show_frame(Page7))
 
 		prevButton.grid(row = 0, column = 2, padx = 10, pady = 10)
 
-		nextButton = ttk.Button(bottom_bar, text ="Next",
+		nextButton = customtkinter.CTkButton(bottom_bar, text ="Next",
 							command = lambda : controller.show_frame(Page9))
 
 		nextButton.grid(row = 0, column = 3, padx = 10, pady = 10)
 
-		homeButton = ttk.Button(bottom_bar, text ="Back to Home",
+		homeButton = customtkinter.CTkButton(bottom_bar, text ="Back to Home",
 							command = lambda : controller.show_frame(HomePage))
 	
 		homeButton.grid(row = 0, column = 4, padx = 10, pady = 10)
@@ -451,24 +453,24 @@ class Page8(tkinter.Frame):
 		toolbar.pack(side=tkinter.BOTTOM, fill=tkinter.X, padx=10,pady=10)
 		canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=True, padx=10,pady=10)
 
-class Page9(tkinter.Frame):
+class Page9(customtkinter.CTkFrame):
 	def __init__(self, parent, controller):
-		tkinter.Frame.__init__(self, parent)
-		label = ttk.Label(self, text ="Households by Tenancy by Dwelling", font = LARGEFONT)
+		customtkinter.CTkFrame.__init__(self, parent)
+		label = customtkinter.CTkLabel(self, text ="Households by Tenancy by Dwelling", font = LARGEFONT)
 		label.pack(side=tkinter.TOP, padx=10,pady=10)
 
-		bottom_bar = tkinter.Frame(self)
+		bottom_bar = customtkinter.CTkFrame(self)
 		bottom_bar.pack(side=tkinter.BOTTOM)
 
-		prevButton = ttk.Button(bottom_bar, text ="Previous",
+		prevButton = customtkinter.CTkButton(bottom_bar, text ="Previous",
 							command = lambda : controller.show_frame(Page8))
 		prevButton.grid(row = 0, column = 3, padx = 10, pady = 10)
 
-		nextButton = ttk.Button(bottom_bar, text ="Next",
+		nextButton = customtkinter.CTkButton(bottom_bar, text ="Next",
 							command = lambda : controller.show_frame(Page10))
 		nextButton.grid(row = 0, column = 4, padx = 10, pady = 10)
 		
-		homeButton = ttk.Button(bottom_bar, text ="Back to Home",
+		homeButton = customtkinter.CTkButton(bottom_bar, text ="Back to Home",
 					command = lambda : controller.show_frame(HomePage))
 	
 		homeButton.grid(row = 0, column = 5, padx = 10, pady = 10)
@@ -524,29 +526,29 @@ class Page9(tkinter.Frame):
 		slider_update_1.grid(row = 0, column = 1,columnspan=2, padx = 10, pady = 10)
 		slider_update_2 = tkinter.Scale(bottom_bar, from_=2000, to=2022, orient=tkinter.HORIZONTAL,
                                     command=update_year_2, label="Year (Right Pie Chart)",length=200)
-		slider_update_2.grid(row = 0, column = 5, columnspan=2, padx = 10, pady = 10)
+		slider_update_2.grid(row = 0, column = 6, columnspan=2, padx = 10, pady = 10)
 
 		toolbar.pack(side=tkinter.BOTTOM, fill=tkinter.X, padx=10,pady=10)
 		canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=True, padx=10,pady=10)
 
-class Page10(tkinter.Frame):
+class Page10(customtkinter.CTkFrame):
 	def __init__(self, parent, controller):
-		tkinter.Frame.__init__(self, parent)
-		label = ttk.Label(self, text ="Residential Households by Living Arrangement over the years", font = LARGEFONT)
+		customtkinter.CTkFrame.__init__(self, parent)
+		label = customtkinter.CTkLabel(self, text ="Residential Households by Living Arrangement over the years", font = LARGEFONT)
 		label.pack(side=tkinter.TOP, padx=10,pady=10)
 
-		bottom_bar = tkinter.Frame(self)
+		bottom_bar = customtkinter.CTkFrame(self)
 		bottom_bar.pack(side=tkinter.BOTTOM)
 
-		prevButton = ttk.Button(bottom_bar, text ="Previous",
+		prevButton = customtkinter.CTkButton(bottom_bar, text ="Previous",
 							command = lambda : controller.show_frame(Page9))
 		prevButton.grid(row = 0, column = 2, padx = 10, pady = 10)
 
-		nextButton = ttk.Button(bottom_bar, text ="Next",
+		nextButton = customtkinter.CTkButton(bottom_bar, text ="Next",
 							command = lambda : controller.show_frame(Page11))
 		nextButton.grid(row = 0, column = 3, padx = 10, pady = 10)
 		
-		homeButton = ttk.Button(bottom_bar, text ="Back to Home",
+		homeButton = customtkinter.CTkButton(bottom_bar, text ="Back to Home",
 					command = lambda : controller.show_frame(HomePage))
 	
 		homeButton.grid(row = 0, column = 4, padx = 10, pady = 10)
@@ -564,20 +566,20 @@ class Page10(tkinter.Frame):
 		toolbar.pack(side=tkinter.BOTTOM, fill=tkinter.X, padx=10,pady=10)
 		canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=True, padx=10,pady=10)
 
-class Page11(tkinter.Frame):
+class Page11(customtkinter.CTkFrame):
 	def __init__(self, parent, controller):
-		tkinter.Frame.__init__(self, parent)
-		label = ttk.Label(self, text ="Households by Age of Youngest Child in a particular year", font = LARGEFONT)
+		customtkinter.CTkFrame.__init__(self, parent)
+		label = customtkinter.CTkLabel(self, text ="Households by Age of Youngest Child in a particular year", font = LARGEFONT)
 		label.pack(side=tkinter.TOP, padx=10,pady=10)
 
-		bottom_bar = tkinter.Frame(self)
+		bottom_bar = customtkinter.CTkFrame(self)
 		bottom_bar.pack(side=tkinter.BOTTOM)
 
-		prevButton = ttk.Button(bottom_bar, text ="Previous",
+		prevButton = customtkinter.CTkButton(bottom_bar, text ="Previous",
 							command = lambda : controller.show_frame(Page10))
 		prevButton.grid(row = 0, column = 3, padx = 10, pady = 10)
 		
-		homeButton = ttk.Button(bottom_bar, text ="Back to Home",
+		homeButton = customtkinter.CTkButton(bottom_bar, text ="Back to Home",
 					command = lambda : controller.show_frame(HomePage))
 	
 		homeButton.grid(row = 0, column = 4, padx = 10, pady = 10)
