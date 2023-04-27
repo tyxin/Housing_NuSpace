@@ -7,5 +7,7 @@ Note: May need to install the packages required to run properly. If prompted upo
 - matplotlib
 - seaborn
 
+Note: Min Max was only annotated for first plot as it was most relevant in the context, and pie charts all had percentages indicated.
+
 ## Dataset Source
 Housing in Singapore time series

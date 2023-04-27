@@ -144,25 +144,30 @@ class Page3(tkinter.Frame):
 
 		prevButton = ttk.Button(bottom_bar, text ="Previous",
 							command = lambda : controller.show_frame(Page2))
-		prevButton.grid(row = 0, column = 2, padx = 10, pady = 10)
+		prevButton.grid(row = 0, column = 3, padx = 10, pady = 10)
 
 		nextButton = ttk.Button(bottom_bar, text ="Next",
 							command = lambda : controller.show_frame(Page4))
-		nextButton.grid(row = 0, column = 3, padx = 10, pady = 10)
+		nextButton.grid(row = 0, column = 4, padx = 10, pady = 10)
 		
 		homeButton = ttk.Button(bottom_bar, text ="Back to Home",
 					command = lambda : controller.show_frame(HomePage))
 	
-		homeButton.grid(row = 0, column = 4, padx = 10, pady = 10)
+		homeButton.grid(row = 0, column = 5, padx = 10, pady = 10)
 	
-		str_year = str(1983)
+		str_year_1 = str(1983)
+		str_year_2 = str(1983)
 		labels = household_type['Data Series']
-		sizes = household_type[str_year]
+		sizes_1 = household_type[str_year_1]
+		sizes_2 = household_type[str_year_2]
+
 
 		fig = Figure(dpi=60)
-		ax = fig.subplots()
-		ax.pie(sizes,labels=labels,autopct='%1.1f%%')
-		ax.set_title("Proportion of household properties in "+str_year)
+		ax = fig.subplots(nrows=1,ncols=2)
+		ax[0].pie(sizes_1,labels=labels,autopct='%1.1f%%')
+		ax[0].set_title("Proportion of household properties in "+str_year_1)
+		ax[1].pie(sizes_2,labels=labels,autopct='%1.1f%%')
+		ax[1].set_title("Proportion of household properties in "+str_year_2)
 		canvas = FigureCanvasTkAgg(fig, master=self)  # A tk.DrawingArea.
 		canvas.draw()
 		toolbar = NavigationToolbar2Tk(canvas, self, pack_toolbar=False)
@@ -171,17 +176,28 @@ class Page3(tkinter.Frame):
             "key_press_event", lambda event: print(f"you pressed {event.key}"))
 		canvas.mpl_connect("key_press_event", key_press_handler)
 		
-		def update_year(new_val):
+		def update_year_1(new_val):
 			str_year = str(new_val)
 			sizes = household_type[str_year]
-			ax.clear()
-			ax.pie(sizes,labels=labels,autopct='%1.1f%%')
-			ax.set_title("Proportion of household properties in "+str_year)
+			ax[0].clear()
+			ax[0].pie(sizes,labels=labels,autopct='%1.1f%%')
+			ax[0].set_title("Proportion of household properties in "+str_year)
+			canvas.draw()
+
+		def update_year_2(new_val):
+			str_year = str(new_val)
+			sizes = household_type[str_year]
+			ax[1].clear()
+			ax[1].pie(sizes,labels=labels,autopct='%1.1f%%')
+			ax[1].set_title("Proportion of household properties in "+str_year)
 			canvas.draw()
 			
-		slider_update = tkinter.Scale(bottom_bar, from_=1983, to=2022, orient=tkinter.HORIZONTAL,
-                                    command=update_year, label="Year")
-		slider_update.grid(row = 0, column = 1, padx = 10, pady = 10)
+		slider_update_1 = tkinter.Scale(bottom_bar, from_=1983, to=2022, orient=tkinter.HORIZONTAL,
+                                    command=update_year_1, label="Year (Left Pie Chart)",length=200)
+		slider_update_1.grid(row = 0, column = 1,columnspan=2, padx = 10, pady = 10)
+		slider_update_2 = tkinter.Scale(bottom_bar, from_=1983, to=2022, orient=tkinter.HORIZONTAL,
+                                    command=update_year_2, label="Year (Right Pie Chart)",length=200)
+		slider_update_2.grid(row = 0, column = 6, columnspan=2, padx = 10, pady = 10)
 		toolbar.pack(side=tkinter.BOTTOM, fill=tkinter.X, padx=10,pady=10)
 		canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=True, padx=10,pady=10)
 
@@ -265,27 +281,31 @@ class Page6(tkinter.Frame):
 
 		prevButton = ttk.Button(bottom_bar, text ="Previous",
 							command = lambda : controller.show_frame(Page5))
-		prevButton.grid(row = 0, column = 2, padx = 10, pady = 10)
+		prevButton.grid(row = 0, column = 3, padx = 10, pady = 10)
 
 		nextButton = ttk.Button(bottom_bar, text ="Next",
 							command = lambda : controller.show_frame(Page7))
-		nextButton.grid(row = 0, column = 3, padx = 10, pady = 10)
+		nextButton.grid(row = 0, column = 4, padx = 10, pady = 10)
 		
 		homeButton = ttk.Button(bottom_bar, text ="Back to Home",
 					command = lambda : controller.show_frame(HomePage))
 	
-		homeButton.grid(row = 0, column = 4, padx = 10, pady = 10)
+		homeButton.grid(row = 0, column = 5, padx = 10, pady = 10)
 	
 		household_occupier_type_demographics = household_occupier_type[household_occupier_type["Type"]!="Resident Households"]
 		household_occupier_type_demographics = household_occupier_type_demographics.groupby(by="Data Series").sum()
 		household_occupier_type_demographics = household_occupier_type_demographics.reset_index()
 		labels = household_occupier_type_demographics['Data Series']
-		str_year = str(2000)
+		str_year_1 = str(2000)
+		str_year_2 = str(2000)
 		fig = Figure(dpi=60)
-		ax = fig.subplots()
-		sizes = household_occupier_type_demographics[str_year]
-		ax.pie(sizes,labels=labels,autopct='%1.1f%%')
-		ax.set_title("Households by demographics distribution in "+str_year)
+		ax = fig.subplots(nrows=1,ncols=2)
+		sizes_1 = household_occupier_type_demographics[str_year_1]
+		sizes_2 = household_occupier_type_demographics[str_year_2]
+		ax[0].pie(sizes_1,labels=labels,autopct='%1.1f%%')
+		ax[0].set_title("Households by demographics distribution in "+str_year_1)
+		ax[1].pie(sizes_2,labels=labels,autopct='%1.1f%%')
+		ax[1].set_title("Households by demographics distribution in "+str_year_2)
 		canvas = FigureCanvasTkAgg(fig, master=self)  # A tk.DrawingArea.
 		canvas.draw()
 		toolbar = NavigationToolbar2Tk(canvas, self, pack_toolbar=False)
@@ -294,17 +314,29 @@ class Page6(tkinter.Frame):
             "key_press_event", lambda event: print(f"you pressed {event.key}"))
 		canvas.mpl_connect("key_press_event", key_press_handler)
 		
-		def update_year(new_val):
+		def update_year_1(new_val):
 			str_year = str(new_val)		
 			sizes = household_occupier_type_demographics[str_year]
-			ax.clear()
-			ax.pie(sizes,labels=labels,autopct='%1.1f%%')
-			ax.set_title("Households by demographics distribution in "+str_year)
+			ax[0].clear()
+			ax[0].pie(sizes,labels=labels,autopct='%1.1f%%')
+			ax[0].set_title("Households by demographics distribution in "+str_year)
 			canvas.draw()
+
+		def update_year_2(new_val):
+			str_year = str(new_val)		
+			sizes = household_occupier_type_demographics[str_year]
+			ax[1].clear()
+			ax[1].pie(sizes,labels=labels,autopct='%1.1f%%')
+			ax[1].set_title("Households by demographics distribution in "+str_year)
+			canvas.draw()
+		
 			
-		slider_update = tkinter.Scale(bottom_bar, from_=2000, to=2022, orient=tkinter.HORIZONTAL,
-                                    command=update_year, label="Year")
-		slider_update.grid(row = 0, column = 1, padx = 10, pady = 10)
+		slider_update_1 = tkinter.Scale(bottom_bar, from_=2000, to=2022, orient=tkinter.HORIZONTAL,
+                                    command=update_year_1, label="Year (Left Pie Chart)",length=200)
+		slider_update_1.grid(row = 0, column = 1,columnspan=2, padx = 10, pady = 10)
+		slider_update_2 = tkinter.Scale(bottom_bar, from_=2000, to=2022, orient=tkinter.HORIZONTAL,
+                                    command=update_year_2, label="Year (Right Pie Chart)",length=200)
+		slider_update_2.grid(row = 0, column = 6, columnspan=2, padx = 10, pady = 10)
 		toolbar.pack(side=tkinter.BOTTOM, fill=tkinter.X, padx=10,pady=10)
 		canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=True, padx=10,pady=10)
 
@@ -319,16 +351,16 @@ class Page7(tkinter.Frame):
 
 		prevButton = ttk.Button(bottom_bar, text ="Previous",
 							command = lambda : controller.show_frame(Page6))
-		prevButton.grid(row = 0, column = 2, padx = 10, pady = 10)
+		prevButton.grid(row = 0, column = 3, padx = 10, pady = 10)
 
 		nextButton = ttk.Button(bottom_bar, text ="Next",
 							command = lambda : controller.show_frame(Page8))
-		nextButton.grid(row = 0, column = 3, padx = 10, pady = 10)
+		nextButton.grid(row = 0, column = 4, padx = 10, pady = 10)
 		
 		homeButton = ttk.Button(bottom_bar, text ="Back to Home",
 					command = lambda : controller.show_frame(HomePage))
 	
-		homeButton.grid(row = 0, column = 4, padx = 10, pady = 10)
+		homeButton.grid(row = 0, column = 5, padx = 10, pady = 10)
 	
 		household_occupier_age = household_occupier_type.groupby(by="Type").sum()
 		household_occupier_age = household_occupier_age.rename(index=
@@ -339,11 +371,15 @@ class Page7(tkinter.Frame):
 		labels = household_occupier_age['Type']
 
 		fig = Figure(dpi=60)
-		ax = fig.subplots()
-		str_year = str(2000)
-		sizes = household_occupier_age[str_year]
-		ax.pie(sizes,labels=labels,autopct='%1.1f%%')
-		ax.set_title("Households based on household reference person's age in "+str_year)
+		ax = fig.subplots(nrows=1,ncols=2)
+		str_year_1 = str(2000)
+		str_year_2 = str(2000)
+		sizes_1 = household_occupier_age[str_year_1]
+		sizes_2 = household_occupier_age[str_year_2]
+		ax[0].pie(sizes_1,labels=labels,autopct='%1.1f%%')
+		ax[0].set_title("Households based on household reference person's age in "+str_year_1)
+		ax[1].pie(sizes_2,labels=labels,autopct='%1.1f%%')
+		ax[1].set_title("Households based on household reference person's age in "+str_year_2)
 		
 		canvas = FigureCanvasTkAgg(fig, master=self)  # A tk.DrawingArea.
 		canvas.draw()
@@ -353,17 +389,28 @@ class Page7(tkinter.Frame):
             "key_press_event", lambda event: print(f"you pressed {event.key}"))
 		canvas.mpl_connect("key_press_event", key_press_handler)
 		
-		def update_year(new_val):
+		def update_year_1(new_val):
 			str_year = str(new_val)		
 			sizes = household_occupier_age[str_year]
-			ax.clear()
-			ax.pie(sizes,labels=labels,autopct='%1.1f%%')
-			ax.set_title("Households based on household reference person's age in "+str_year)
+			ax[0].clear()
+			ax[0].pie(sizes,labels=labels,autopct='%1.1f%%')
+			ax[0].set_title("Households based on household reference person's age in "+str_year)
+			canvas.draw()
+
+		def update_year_2(new_val):
+			str_year = str(new_val)		
+			sizes = household_occupier_age[str_year]
+			ax[1].clear()
+			ax[1].pie(sizes,labels=labels,autopct='%1.1f%%')
+			ax[1].set_title("Households based on household reference person's age in "+str_year)
 			canvas.draw()
 			
-		slider_update = tkinter.Scale(bottom_bar, from_=2000, to=2022, orient=tkinter.HORIZONTAL,
-                                    command=update_year, label="Year")
-		slider_update.grid(row = 0, column = 1, padx = 10, pady = 10)
+		slider_update_1 = tkinter.Scale(bottom_bar, from_=2000, to=2022, orient=tkinter.HORIZONTAL,
+                                    command=update_year_1, label="Year (Left Pie Chart)",length=200)
+		slider_update_1.grid(row = 0, column = 1,columnspan=2, padx = 10, pady = 10)
+		slider_update_2 = tkinter.Scale(bottom_bar, from_=2000, to=2022, orient=tkinter.HORIZONTAL,
+                                    command=update_year_2, label="Year (Right Pie Chart)",length=200)
+		slider_update_2.grid(row = 0, column = 6, columnspan=2, padx = 10, pady = 10)
 		toolbar.pack(side=tkinter.BOTTOM, fill=tkinter.X, padx=10,pady=10)
 		canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=True, padx=10,pady=10)
 
@@ -415,26 +462,39 @@ class Page9(tkinter.Frame):
 
 		prevButton = ttk.Button(bottom_bar, text ="Previous",
 							command = lambda : controller.show_frame(Page8))
-		prevButton.grid(row = 0, column = 2, padx = 10, pady = 10)
+		prevButton.grid(row = 0, column = 3, padx = 10, pady = 10)
 
 		nextButton = ttk.Button(bottom_bar, text ="Next",
 							command = lambda : controller.show_frame(Page10))
-		nextButton.grid(row = 0, column = 3, padx = 10, pady = 10)
+		nextButton.grid(row = 0, column = 4, padx = 10, pady = 10)
 		
 		homeButton = ttk.Button(bottom_bar, text ="Back to Home",
 					command = lambda : controller.show_frame(HomePage))
 	
-		homeButton.grid(row = 0, column = 4, padx = 10, pady = 10)
+		homeButton.grid(row = 0, column = 5, padx = 10, pady = 10)
 
 		household_type_tenancy_selected = household_type_tenancy.drop(index=[0,1,2,3,4])
+		household_type_tenancy_selected = household_type_tenancy_selected.set_index("Data Series")
+		household_type_tenancy_selected = household_type_tenancy_selected.rename(
+		index={"    HDB 1- And 2-Room Flats (Per Cent)":"1-2 Room HDB","    HDB 3-Room Flats (Per Cent)":"3 Room HDB",
+			"    HDB 4-Room Flats (Per Cent)":"4 Room HDB",
+			"    HDB 5-Room And Executive Flats (Per Cent)":"5 Room and Executive HDB",
+			"  Condominiums & Other Apartments (Per Cent)":"Condominiums & Other Apartments",
+			"  Landed Properties (Per Cent)":"Landed Properties",
+			"  Other Types Of Dwelling (Per Cent)":"Others"})
+		household_type_tenancy_selected = household_type_tenancy_selected.reset_index()
 		labels = household_type_tenancy_selected['Data Series']
 		fig = Figure(dpi=60)
-		ax = fig.subplots()
+		ax = fig.subplots(nrows=1,ncols=2)
 		
-		str_year = str(2000)
-		sizes = household_type_tenancy_selected[str_year]
-		ax.pie(sizes,labels=labels,autopct='%1.1f%%')
-		ax.set_title("Resident Households by Tenancy in "+str_year)
+		str_year_1 = str(2000)
+		str_year_2 = str(2000)
+		sizes_1 = household_type_tenancy_selected[str_year_1]
+		sizes_2 = household_type_tenancy_selected[str_year_2]
+		ax[0].pie(sizes_1,labels=labels,autopct='%1.1f%%')
+		ax[0].set_title("Resident Households by Tenancy in "+str_year_1)
+		ax[1].pie(sizes_2,labels=labels,autopct='%1.1f%%')
+		ax[1].set_title("Resident Households by Tenancy in "+str_year_1)
 		canvas = FigureCanvasTkAgg(fig, master=self)  # A tk.DrawingArea.
 		canvas.draw()
 		toolbar = NavigationToolbar2Tk(canvas, self, pack_toolbar=False)
@@ -443,17 +503,29 @@ class Page9(tkinter.Frame):
             "key_press_event", lambda event: print(f"you pressed {event.key}"))
 		canvas.mpl_connect("key_press_event", key_press_handler)
 		
-		def update_year(new_val):
+		def update_year_1(new_val):
 			str_year = str(new_val)
 			sizes = household_type_tenancy_selected[str_year]
-			ax.clear()
-			ax.pie(sizes,labels=labels,autopct='%1.1f%%')
-			ax.set_title("Resident Households by Tenancy in "+str_year)
+			ax[0].clear()
+			ax[0].pie(sizes,labels=labels,autopct='%1.1f%%')
+			ax[0].set_title("Resident Households by Tenancy in "+str_year)
 			canvas.draw()
 			
-		slider_update = tkinter.Scale(bottom_bar, from_=2000, to=2022, orient=tkinter.HORIZONTAL,
-                                    command=update_year, label="Year")
-		slider_update.grid(row = 0, column = 1, padx = 10, pady = 10)
+		def update_year_2(new_val):
+			str_year = str(new_val)
+			sizes = household_type_tenancy_selected[str_year]
+			ax[1].clear()
+			ax[1].pie(sizes,labels=labels,autopct='%1.1f%%')
+			ax[1].set_title("Resident Households by Tenancy in "+str_year)
+			canvas.draw()
+			
+		slider_update_1 = tkinter.Scale(bottom_bar, from_=2000, to=2022, orient=tkinter.HORIZONTAL,
+                                    command=update_year_1, label="Year (Left Pie Chart)",length=200)
+		slider_update_1.grid(row = 0, column = 1,columnspan=2, padx = 10, pady = 10)
+		slider_update_2 = tkinter.Scale(bottom_bar, from_=2000, to=2022, orient=tkinter.HORIZONTAL,
+                                    command=update_year_2, label="Year (Right Pie Chart)",length=200)
+		slider_update_2.grid(row = 0, column = 5, columnspan=2, padx = 10, pady = 10)
+
 		toolbar.pack(side=tkinter.BOTTOM, fill=tkinter.X, padx=10,pady=10)
 		canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=True, padx=10,pady=10)
 
@@ -503,12 +575,12 @@ class Page11(tkinter.Frame):
 
 		prevButton = ttk.Button(bottom_bar, text ="Previous",
 							command = lambda : controller.show_frame(Page10))
-		prevButton.grid(row = 0, column = 2, padx = 10, pady = 10)
+		prevButton.grid(row = 0, column = 3, padx = 10, pady = 10)
 		
 		homeButton = ttk.Button(bottom_bar, text ="Back to Home",
 					command = lambda : controller.show_frame(HomePage))
 	
-		homeButton.grid(row = 0, column = 3, padx = 10, pady = 10)
+		homeButton.grid(row = 0, column = 4, padx = 10, pady = 10)
 
 		household_child_with_child_married = household_child[household_child["Type"]=="  Married Couple-Based With Children"]
 		household_child_with_child_married = household_child_with_child_married.set_index("Data Series")
@@ -519,11 +591,15 @@ class Page11(tkinter.Frame):
 		labels = household_child_with_child_married['Data Series']
 
 		fig = Figure(dpi=60)
-		ax = fig.subplots()
-		str_year = str(2000)
-		sizes = household_child_with_child_married[str_year]
-		ax.pie(sizes,labels=labels,autopct='%1.1f%%')
-		ax.set_title("Resident Households by Age of Youngest Child for Married Households with Children "+str_year)
+		ax = fig.subplots(nrows=1, ncols=2)
+		str_year_1 = str(2000)
+		str_year_2 = str(2000)
+		sizes_1 = household_child_with_child_married[str_year_1]
+		sizes_2 = household_child_with_child_married[str_year_2]
+		ax[0].pie(sizes_1,labels=labels,autopct='%1.1f%%')
+		ax[0].set_title("Resident Households by Age of Youngest Child for Married Households with Children "+str_year_1)
+		ax[1].pie(sizes_2,labels=labels,autopct='%1.1f%%')
+		ax[1].set_title("Resident Households by Age of Youngest Child for Married Households with Children "+str_year_2)
 		
 		canvas = FigureCanvasTkAgg(fig, master=self)  # A tk.DrawingArea.
 		canvas.draw()
@@ -533,17 +609,28 @@ class Page11(tkinter.Frame):
             "key_press_event", lambda event: print(f"you pressed {event.key}"))
 		canvas.mpl_connect("key_press_event", key_press_handler)
 		
-		def update_year(new_val):
+		def update_year_1(new_val):
 			str_year = str(new_val)
 			sizes = household_child_with_child_married[str_year]
-			ax.clear()
-			ax.pie(sizes,labels=labels,autopct='%1.1f%%')
-			ax.set_title("Resident Households by Age of Youngest Child for Married Households with Children "+str_year)
+			ax[0].clear()
+			ax[0].pie(sizes,labels=labels,autopct='%1.1f%%')
+			ax[0].set_title("Resident Households by Age of Youngest Child for Married Households with Children "+str_year)
+			canvas.draw()
+
+		def update_year_2(new_val):
+			str_year = str(new_val)
+			sizes = household_child_with_child_married[str_year]
+			ax[1].clear()
+			ax[1].pie(sizes,labels=labels,autopct='%1.1f%%')
+			ax[1].set_title("Resident Households by Age of Youngest Child for Married Households with Children "+str_year)
 			canvas.draw()
 			
-		slider_update = tkinter.Scale(bottom_bar, from_=2000, to=2022, orient=tkinter.HORIZONTAL,
-                                    command=update_year, label="Year")
-		slider_update.grid(row = 0, column = 1, padx = 10, pady = 10)
+		slider_update_1 = tkinter.Scale(bottom_bar, from_=2000, to=2022, orient=tkinter.HORIZONTAL,
+                                    command=update_year_1, label="Year (Left Pie Chart)",length=200)
+		slider_update_1.grid(row = 0, column = 1,columnspan=2, padx = 10, pady = 10)
+		slider_update_2 = tkinter.Scale(bottom_bar, from_=2000, to=2022, orient=tkinter.HORIZONTAL,
+                                    command=update_year_2, label="Year (Right Pie Chart)",length=200)
+		slider_update_2.grid(row = 0, column = 6, columnspan=2, padx = 10, pady = 10)
 		toolbar.pack(side=tkinter.BOTTOM, fill=tkinter.X, padx=10,pady=10)
 		canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=True, padx=10,pady=10)
 

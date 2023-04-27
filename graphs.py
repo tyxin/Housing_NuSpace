@@ -42,6 +42,14 @@ def household_dwelling_bar_decade(household_type):
     ax.set_title("Change of number of households across decades")
     ax.set_xticklabels(ax.get_xticklabels(),rotation=5)
     ax.set_ylabel("Number of household units")
+    ax.annotate('Max households: '+str(max(selected_household_type["noHouseholds"])), xy=(2.2, 439000), xycoords='data',
+            xytext=(0.2, .95), textcoords='axes fraction',
+            va='top', ha='left',
+            arrowprops=dict(facecolor='black', shrink=0.05))
+    ax.annotate('Min households: '+str(min(selected_household_type["noHouseholds"])), xy=(6.2, 3000), xycoords='data',
+            xytext=(0.85, .2), textcoords='axes fraction',
+            va='top', ha='left',
+            arrowprops=dict(facecolor='black', shrink=0.05))    
     return fig
 
 
@@ -93,11 +101,11 @@ def household_reference(household_occupier_type):
     household_occupier_type_grouped = household_occupier_type_collapsed.groupby(by=["Type","year"]).sum()
     household_occupier_type_grouped = household_occupier_type_grouped.reset_index()
     household_occupier_type_grouped = household_occupier_type_grouped[household_occupier_type_grouped["Type"]!="Resident Households"]
-    fig = Figure(dpi=60)
+    fig = Figure(dpi=55)
     ax = fig.subplots()
     sns.pointplot(y="noHouseholds",x="year",data=household_occupier_type_grouped,hue="Type",ax=ax)
     ax.set_title("Number of residential households from 1990 to 2022 based on household reference")
-    ax.legend(bbox_to_anchor=(1,1))
+    ax.legend()
 
     return fig
 
@@ -141,16 +149,26 @@ def household_persons(household_size):
     household_size_selected = household_size_selected.rename(columns={"variable":"year"})
     household_size_selected = household_size_selected[household_size_selected["Data Series"]!="  Total HDB Dwellings (Persons)"]
 
-    fig = Figure(dpi=60)
+    fig = Figure(dpi=55)
     ax = fig.subplots()
     ax.set_title("Number of people staying based on type of households from 1983 to 2022")
     sns.pointplot(y="value",x="year",data=household_size_selected,hue="Data Series",ax=ax)
+    ax.set_ylabel("No. of people per household")
     ax.legend(bbox_to_anchor=(1,1))
     
     return fig
 
 def household_tenancy_demographics(household_type_tenancy,year):
     household_type_tenancy_selected = household_type_tenancy.drop(index=[0,1,2,3,4])
+    household_type_tenancy_selected = household_type_tenancy_selected.set_index("Data Series")
+    household_type_tenancy_selected = household_type_tenancy_selected.rename(
+        index={"    HDB 1- And 2-Room Flats (Per Cent)":"1-2 Room HDB","    HDB 3-Room Flats (Per Cent)":"3 Room HDB",
+            "    HDB 4-Room Flats (Per Cent)":"4 Room HDB",
+            "    HDB 5-Room And Executive Flats (Per Cent)":"5 Room and Executive HDB",
+            "  Condominiums & Other Apartments (Per Cent)":"Condominiums & Other Apartments",
+            "  Landed Properties (Per Cent)":"Landed Properties",
+            "  Other Types Of Dwelling (Per Cent)":"Others"})
+    household_type_tenancy_selected = household_type_tenancy_selected.reset_index()
     labels = household_type_tenancy_selected['Data Series']
     fig = Figure(dpi=60)
     ax = fig.subplots()
@@ -171,11 +189,12 @@ def household_living_arrangement(household_child):
     household_child_selected = household_child_selected.melt(id_vars=["Type"],
                 value_vars=years)
     household_child_selected = household_child_selected.rename(columns={"variable":"year"})
-    fig = Figure(dpi=60)
+    fig = Figure(dpi=55)
     ax = fig.subplots()
     ax.set_title("Number of people in resident households by living arrangement 1990 to 2022")
     sns.pointplot(y="value",x="year",data=household_child_selected,hue="Type",ax=ax)
-    ax.legend(bbox_to_anchor=(1,1))
+    ax.set_ylabel("No. of people per household")
+    ax.legend()
     
     return fig 
 
