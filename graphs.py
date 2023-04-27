@@ -95,7 +95,7 @@ def household_reference(household_occupier_type):
     household_occupier_type_grouped = household_occupier_type_grouped[household_occupier_type_grouped["Type"]!="Resident Households"]
     fig = Figure(dpi=60)
     ax = fig.subplots()
-    sns.pointplot(y="noHouseholds",x="year",data=household_occupier_type_grouped,hue="Type")
+    sns.pointplot(y="noHouseholds",x="year",data=household_occupier_type_grouped,hue="Type",ax=ax)
     ax.set_title("Number of residential households from 1990 to 2022 based on household reference")
     ax.legend(bbox_to_anchor=(1,1))
 
@@ -139,17 +139,18 @@ def household_persons(household_size):
                 value_vars=[str(i) for i in range(1983,2023)])
     household_size_selected = household_size_selected[household_size_selected["Data Series"].str.endswith("(Persons)")]
     household_size_selected = household_size_selected.rename(columns={"variable":"year"})
+    household_size_selected = household_size_selected[household_size_selected["Data Series"]!="  Total HDB Dwellings (Persons)"]
 
     fig = Figure(dpi=60)
     ax = fig.subplots()
     ax.set_title("Number of people staying based on type of households from 1983 to 2022")
-    sns.pointplot(y="value",x="year",data=household_size_selected,hue="Data Series")
+    sns.pointplot(y="value",x="year",data=household_size_selected,hue="Data Series",ax=ax)
     ax.legend(bbox_to_anchor=(1,1))
     
     return fig
 
 def household_tenancy_demographics(household_type_tenancy,year):
-    household_type_tenancy_selected = household_type_tenancy.drop(index=[0,1,2])
+    household_type_tenancy_selected = household_type_tenancy.drop(index=[0,1,2,3,4])
     labels = household_type_tenancy_selected['Data Series']
     fig = Figure(dpi=60)
     ax = fig.subplots()
@@ -173,7 +174,7 @@ def household_living_arrangement(household_child):
     fig = Figure(dpi=60)
     ax = fig.subplots()
     ax.set_title("Number of people in resident households by living arrangement 1990 to 2022")
-    sns.pointplot(y="value",x="year",data=household_child_selected,hue="Type")
+    sns.pointplot(y="value",x="year",data=household_child_selected,hue="Type",ax=ax)
     ax.legend(bbox_to_anchor=(1,1))
     
     return fig 
