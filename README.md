@@ -11,5 +11,8 @@ Note: May need to install the packages required to run properly. If prompted upo
 
 Note: Min Max was only annotated for first plot as it was most relevant in the context, and pie charts all had percentages indicated.
 
+## Operating System
+Windows 
+
 ## Dataset Source
 [Housing in Singapore time series from SingStat](https://www.singstat.gov.sg/find-data/search-by-theme/households/households/latest-data)
